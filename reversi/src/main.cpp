@@ -1,8 +1,9 @@
+#include "board.hpp"
 #include <fstream>
 
 int main()
 {
-	puts("Hello, World!");
+	DrawBoard();
 
 	return 0;
 }

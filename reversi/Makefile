@@ -15,5 +15,5 @@ objdir:
 	mkdir -p .objs/
 
 clean:
-	-rm -f objs/*.o $(EXECNAME)
+	-rm -f .objs/*.o $(EXECNAME)
 

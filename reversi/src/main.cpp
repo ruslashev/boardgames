@@ -10,7 +10,9 @@ int main()
 	Board[3][4] = CELL_BLACK;
 	Board[3][3] = CELL_WHITE;
 
-	DrawBoard(Board);
+	Player CurrentPlayer = PLAYER_BLACK;
+
+	DrawBoard(Board, CurrentPlayer);
 
 	return 0;
 }

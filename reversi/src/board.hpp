@@ -6,7 +6,10 @@
 enum Cell { CELL_EMPTY, CELL_WHITE, CELL_BLACK };
 const char CellsForDrawing[3] = { '_', 'o', 'o' };
 
-void DrawBoard(Cell Board[8][8]);
+enum Player { PLAYER_BLACK = 1, PLAYER_WHITE };
+
+void DrawBoard(Cell Board[8][8], Player CurrentPlayer);
+bool LegalToPlace(int x, int y, Cell Board[8][8], Player CurrentPlayer);
 
 #endif
 

@@ -10,6 +10,7 @@ enum Player { PLAYER_BLACK = 1, PLAYER_WHITE };
 
 void DrawBoard(Cell Board[8][8], Player CurrentPlayer);
 bool LegalToPlace(int x, int y, Cell Board[8][8], Player CurrentPlayer);
+void Flip(int x, int y, Cell *Board[8][8], Player CurrentPlayer);
 
 #endif
 

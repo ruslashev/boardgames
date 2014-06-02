@@ -64,7 +64,8 @@ bool LegalToPlace(int x, int y, Cell Board[8][8], Player CurrentPlayer)
 {
 	if (Board[y][x] != CELL_EMPTY)
 		return false;
-	int NewPositions[8][2] = {
+
+	const int Deltas[8][2] = {
 		{ -1, -1 },
 		{  0, -1 },
 		{  1, -1 },
@@ -75,45 +76,37 @@ bool LegalToPlace(int x, int y, Cell Board[8][8], Player CurrentPlayer)
 		{  1,  1 }
 	};
 	Cell neededColor = CurrentPlayer == PLAYER_BLACK ? CELL_WHITE : CELL_BLACK;
-	int i = 0;
 	int numFlipped = 0;
 	int newx = x, newy = y;
-	while (1) {
-		if (i > 7)
-			return false;
-		int dx = NewPositions[i][0];
-		int dy = NewPositions[i][1];
-		newx += dx;
-		newy += dy;
-		if (newx < 0 || newx > 7 || newy < 0 || newy > 7) {
-			i++;
-			newx = x;
-			newy = y;
-			numFlipped = 0;
-			continue;
-		}
-		if (Board[newy][newx] == CELL_EMPTY) {
-			i++;
-			newx = x;
-			newy = y;
-			numFlipped = 0;
-			continue;
-		}
-		if (Board[newx][newy] == neededColor) {
-			numFlipped++;
-			continue;
-		} else {
-			if (numFlipped != 0)
-				return true;
-			else {
-				i++;
-				newx = x;
-				newy = y;
-				numFlipped = 0;
+	for (int i = 0; i < 8; i++) {
+		int dx = Deltas[i][0];
+		int dy = Deltas[i][1];
+		newx = x;
+		newy = y;
+		numFlipped = 0;
+		while (1) {
+			newx += dx;
+			newy += dy;
+			if (newx < 0 || newx > 7 || newy < 0 || newy > 7)
+				break;
+			if (Board[newy][newx] == CELL_EMPTY)
+				break;
+			if (Board[newx][newy] == neededColor) {
+				numFlipped++;
 				continue;
+			} else {
+				if (numFlipped != 0)
+					return true;
+				else
+					break;
 			}
 		}
 	}
 	return false;
+}
+
+void Flip(int x, int y, Cell *Board[8][8], Player CurrentPlayer)
+{
+	// stub
 }
 

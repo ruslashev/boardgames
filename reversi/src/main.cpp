@@ -1,4 +1,5 @@
 #include "board.hpp"
+#include <cstring>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -10,6 +11,7 @@ int main()
 {
 	puts("Welcome to Reversi!");
 	puts("Coordinates are accepted in the format a:1, d4, 5f or 7:g etc.");
+	puts("Enter \"q\" to quit");
 	puts("");
 	Cell Board[8][8] = { { CELL_EMPTY } };
 
@@ -23,15 +25,24 @@ int main()
 	return 0;
 }
 
-void Game(Cell Board[8][8])
+void Game(Cell nBoard[8][8])
 {
+	Cell Board[8][8];
+	for (int y = 0; y < 8; y++)
+		for (int x = 0; x < 8; x++)
+			Board[y][x] = nBoard[y][x];
+
 	while (1) {
 		Player CurrentPlayer = PLAYER_BLACK;
 		DrawBoard(Board, CurrentPlayer);
 
 		int x, y;
 		GetInput(&x, &y);
-		printf("x = %d, y = %d\n", x, y);
+		while (!LegalToPlace(x, y, Board, CurrentPlayer)) {
+			puts("Illegal move");
+			GetInput(&x, &y);
+		}
+		// Flip(x, y, &Board, CurrentPlayer);
 
 		break;
 	}

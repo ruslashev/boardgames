@@ -109,7 +109,7 @@ bool LegalToPlace(int x, int y, Cell Board[8][8], Player CurrentPlayer)
 	return false;
 }
 
-int Flip(int x, int y, Cell (*Board)[8][8], Player CurrentPlayer)
+void Flip(int x, int y, Cell (*Board)[8][8], Player CurrentPlayer)
 {
 	const int Deltas[8][2] = {
 		{ -1, -1 },
@@ -125,7 +125,6 @@ int Flip(int x, int y, Cell (*Board)[8][8], Player CurrentPlayer)
 	Cell playerColor = CurrentPlayer == PLAYER_BLACK ? CELL_BLACK : CELL_WHITE;
 	int newx, newy;
 	int numFlipped = 0;
-	int totalFlipped = 0;
 	for (int i = 0; i < 8; i++) {
 		int dx = Deltas[i][0];
 		int dy = Deltas[i][1];
@@ -151,13 +150,23 @@ int Flip(int x, int y, Cell (*Board)[8][8], Player CurrentPlayer)
 							break;
 						(*Board)[newy][newx] = playerColor;
 					}
-					totalFlipped += numFlipped;
 				}
 				break;
 			}
 		}
 	}
 	(*Board)[y][x] = playerColor;
-	return totalFlipped;
+}
+
+void CountScore(Cell Board[8][8], int *black, int *white)
+{
+	*black = 0;
+	*white = 0;
+	for (int y = 0; y < 8; y++)
+		for (int x = 0; x < 8; x++)
+			if (Board[y][x] == CELL_BLACK)
+				*black += 1;
+			else if (Board[y][x] == CELL_WHITE)
+				*white += 1;
 }
 

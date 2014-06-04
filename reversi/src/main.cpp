@@ -53,6 +53,7 @@ void Game(Cell nBoard[8][8])
 			break;
 		}
 
+		CountScore(Board, &blackScore, &whiteScore);
 		printf("Score: %d:%d\n", blackScore, whiteScore);
 		printf("%s's move\n", CurrentPlayer == PLAYER_BLACK ? "Black" : "White");
 
@@ -62,14 +63,8 @@ void Game(Cell nBoard[8][8])
 			puts("Illegal move");
 			GetInput(&x, &y);
 		}
-		int score = Flip(x, y, &Board, CurrentPlayer);
-		if (CurrentPlayer == PLAYER_BLACK) {
-			blackScore += score;
-			CurrentPlayer = PLAYER_WHITE;
-		} else {
-			whiteScore += score;
-			CurrentPlayer = PLAYER_BLACK;
-		}
+		Flip(x, y, &Board, CurrentPlayer);
+		CurrentPlayer = (CurrentPlayer == PLAYER_BLACK ? PLAYER_WHITE : PLAYER_BLACK);
 		printf("\n");
 	}
 }
@@ -111,7 +106,7 @@ void GetInput(int *x, int *y)
 			}
 
 			*x = c-'a';
-		} else if (c == 'q') {
+		} else if (c == 'q' || !std::cin) {
 			exit(0);
 		} else {
 			puts("Invalid coordinates");

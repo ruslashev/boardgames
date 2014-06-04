@@ -13,6 +13,7 @@ int main()
 	puts("Coordinates are accepted in the format a:1, d4, 5f or 7:g etc.");
 	puts("Enter \"q\" to quit");
 	puts("");
+
 	Cell Board[8][8] = { { CELL_EMPTY } };
 
 	Board[3][3] = CELL_WHITE;
@@ -42,7 +43,7 @@ void Game(Cell nBoard[8][8])
 			puts("Illegal move");
 			GetInput(&x, &y);
 		}
-		// Flip(x, y, &Board, CurrentPlayer);
+		Flip(x, y, Board, CurrentPlayer);
 
 		break;
 	}
@@ -85,6 +86,8 @@ void GetInput(int *x, int *y)
 			}
 
 			*x = c-'a';
+		} else if (c == 'q') {
+			exit(0);
 		} else {
 			puts("Invalid coordinates");
 			continue;

@@ -8,9 +8,9 @@ const char CellsForDrawing[3] = { '_', 'o', 'o' };
 
 enum Player { PLAYER_BLACK = 1, PLAYER_WHITE };
 
-void DrawBoard(Cell Board[8][8], Player CurrentPlayer);
+void DrawBoard(Cell Board[8][8], Player CurrentPlayer, int *legalMoves);
 bool LegalToPlace(int x, int y, Cell Board[8][8], Player CurrentPlayer);
-void Flip(int x, int y, Cell (*Board)[8], Player CurrentPlayer);
+int Flip(int x, int y, Cell (*Board)[8][8], Player CurrentPlayer);
 
 #endif
 

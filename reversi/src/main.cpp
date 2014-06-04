@@ -33,9 +33,28 @@ void Game(Cell nBoard[8][8])
 		for (int x = 0; x < 8; x++)
 			Board[y][x] = nBoard[y][x];
 
+	int blackScore = 0, whiteScore = 0;
+	Player CurrentPlayer = PLAYER_BLACK;
 	while (1) {
-		Player CurrentPlayer = PLAYER_BLACK;
-		DrawBoard(Board, CurrentPlayer);
+		int legalMoves = 0;
+		DrawBoard(Board, CurrentPlayer, &legalMoves);
+
+		if (legalMoves == 0) {
+			puts("");
+			puts("GAME END");
+			printf("%d:%d\n", blackScore, whiteScore);
+			if (blackScore > whiteScore)
+				puts("Player Black won!");
+			else if (whiteScore > blackScore)
+				puts("Player White won!");
+			else
+				puts("Tie!");
+
+			break;
+		}
+
+		printf("Score: %d:%d\n", blackScore, whiteScore);
+		printf("%s's move\n", CurrentPlayer == PLAYER_BLACK ? "Black" : "White");
 
 		int x, y;
 		GetInput(&x, &y);
@@ -43,9 +62,15 @@ void Game(Cell nBoard[8][8])
 			puts("Illegal move");
 			GetInput(&x, &y);
 		}
-		Flip(x, y, Board, CurrentPlayer);
-
-		break;
+		int score = Flip(x, y, &Board, CurrentPlayer);
+		if (CurrentPlayer == PLAYER_BLACK) {
+			blackScore += score;
+			CurrentPlayer = PLAYER_WHITE;
+		} else {
+			whiteScore += score;
+			CurrentPlayer = PLAYER_BLACK;
+		}
+		printf("\n");
 	}
 }
 
@@ -93,7 +118,7 @@ void GetInput(int *x, int *y)
 			continue;
 		}
 
-		if (input.size() > i) {
+		if (input.size() > (unsigned int)i) {
 			puts("Invalid coordinates");
 			continue;
 		}

@@ -36,26 +36,39 @@ void Game(Cell nBoard[8][8])
 	int blackScore = 0, whiteScore = 0;
 	Player CurrentPlayer = PLAYER_BLACK;
 	while (1) {
+		DrawBoard(Board, CurrentPlayer);
+
+		Player OtherPlayer =
+			(CurrentPlayer == PLAYER_BLACK ? PLAYER_WHITE : PLAYER_BLACK);
+		std::string CurrentPlayerString =
+			(CurrentPlayer == PLAYER_BLACK ? "Black" : "White");
+
 		int legalMoves = 0;
-		DrawBoard(Board, CurrentPlayer, &legalMoves);
-
+		CountLegalMoves(Board, CurrentPlayer, &legalMoves);
 		if (legalMoves == 0) {
-			puts("");
-			puts("GAME END");
-			printf("%d:%d\n", blackScore, whiteScore);
-			if (blackScore > whiteScore)
-				puts("Player Black won!");
-			else if (whiteScore > blackScore)
-				puts("Player White won!");
-			else
-				puts("Tie!");
+			CountLegalMoves(Board, OtherPlayer, &legalMoves);
+			if (legalMoves == 0) {
+				puts("");
+				puts("GAME END");
+				printf("%d:%d\n", blackScore, whiteScore);
+				if (blackScore > whiteScore)
+					puts("Player Black won!");
+				else if (whiteScore > blackScore)
+					puts("Player White won!");
+				else
+					puts("Tie!");
 
-			break;
+				break;
+			} else {
+				printf("Player %s has no legal moves\n\n", CurrentPlayerString.c_str());
+				CurrentPlayer = OtherPlayer;
+				continue;
+			}
 		}
 
 		CountScore(Board, &blackScore, &whiteScore);
 		printf("Score: %d:%d\n", blackScore, whiteScore);
-		printf("%s's move\n", CurrentPlayer == PLAYER_BLACK ? "Black" : "White");
+		printf("%s's move\n", CurrentPlayerString.c_str());
 
 		int x, y;
 		GetInput(&x, &y);
@@ -64,7 +77,7 @@ void Game(Cell nBoard[8][8])
 			GetInput(&x, &y);
 		}
 		Flip(x, y, &Board, CurrentPlayer);
-		CurrentPlayer = (CurrentPlayer == PLAYER_BLACK ? PLAYER_WHITE : PLAYER_BLACK);
+		CurrentPlayer = OtherPlayer;
 		printf("\n");
 	}
 }

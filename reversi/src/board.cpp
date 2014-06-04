@@ -1,6 +1,6 @@
 #include "board.hpp"
 
-void DrawBoard(Cell Board[8][8], Player CurrentPlayer, int *legalMoves)
+void DrawBoard(Cell Board[8][8], Player CurrentPlayer)
 {
 	const bool numbersOnTheRight = false;
 	const bool background = true;
@@ -25,9 +25,6 @@ void DrawBoard(Cell Board[8][8], Player CurrentPlayer, int *legalMoves)
 
 		for (int x = 0; x < 8; x++) {
 			bool legalToPlace = LegalToPlace(x, y, Board, CurrentPlayer);
-
-			if (legalToPlace)
-				*legalMoves += 1;
 
 			if (background)
 				printf("\x1b[42m");
@@ -168,5 +165,13 @@ void CountScore(Cell Board[8][8], int *black, int *white)
 				*black += 1;
 			else if (Board[y][x] == CELL_WHITE)
 				*white += 1;
+}
+
+void CountLegalMoves(Cell Board[8][8], Player CurrentPlayer, int *legalMoves)
+{
+	for (int y = 0; y < 8; y++)
+		for (int x = 0; x < 8; x++)
+			if (LegalToPlace(x, y, Board, CurrentPlayer))
+				*legalMoves += 1;
 }
 

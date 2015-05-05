@@ -1,19 +1,30 @@
-CXX = clang++
-OBJS = $(patsubst src/%.cpp, .objs/%.o, $(shell find src -type f -name "*.cpp" ))
+SRCDIR = src
+OBJDIR = .obj
 EXECNAME = reversi
+LDFLAGS =
+CXXFLAGS = -Wall -Wextra -g -std=c++0x
+SRC = $(wildcard $(SRCDIR)/*.cpp)
+OBJ = $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(SRC))
+DEP = $(OBJ:.o=.d)
 
-all: objdir $(EXECNAME)
+default: objfolder $(EXECNAME)
 	./$(EXECNAME)
 
-.objs/%.o: src/%.cpp
-	$(CXX) -c -o $@ $< -Wall -Werror -g -std=c++0x
-
-$(EXECNAME): $(OBJS)
+$(EXECNAME): $(OBJ)
 	$(CXX) -o $@ $^ $(LDFLAGS)
 
-objdir:
-	mkdir -p .objs/
+$(OBJDIR)/%.o: $(SRCDIR)/%.cpp
+	$(CXX) -c -o $@ $< $(CXXFLAGS)
 
+objfolder:
+	mkdir -p $(OBJDIR)
+
+-include $(DEP)
+$(OBJDIR)/%.d: $(SRCDIR)/%.cpp
+	$(CPP) $(CXXFLAGS) $< -MM -MT $(@:.d=.o) > $@
+
+.PHONY: clean
 clean:
-	-rm -f .objs/*.o $(EXECNAME)
+	-rm -f $(OBJ) $(EXECNAME)
+	-rm -f $(DEP)
 

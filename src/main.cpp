@@ -89,6 +89,9 @@ void GetInput(int *x, int *y)
 		std::string input;
 		std::getline(std::cin, input);
 
+		if (std::cin.eof())
+			puts("q");
+
 		int i = 0;
 		char c = input[i++];
 		if (c >= 'a' && c <= 'h') {

@@ -6,3 +6,7 @@ Screenshot:
 
 <a href="http://imgur.com/Yc5hjn3"><img src="http://i.imgur.com/Yc5hjn3.png" title="source: imgur.com" /></a>
 
+## license
+
+See file LICENSE.
+

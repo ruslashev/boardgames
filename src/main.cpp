@@ -1,6 +1,4 @@
 #include "board.hpp"
-#include <cstring>
-#include <fstream>
 #include <iostream>
 #include <string>
 

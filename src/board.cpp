@@ -7,14 +7,19 @@ void DrawBoard(Cell Board[8][8], Player CurrentPlayer)
 	const bool foreground = true;
 	const bool showLegalMoves = true;
 
+	const char *AnsiGreenBg = "\x1b[42m";
+	const char *AnsiWhiteFg = "\x1b[37m";
+	const char *AnsiBlackFg = "\x1b[30m";
+	const char *AnsiRedFg   = "\x1b[31m";
+	const char *AnsiClear   = "\x1b[0m";
+
 	if (numbersOnTheRight)
 		printf("  ");
 	else
 		printf("   ");
 
-	for (int i = 0; i < 8; i++) {
+	for (int i = 0; i < 8; i++)
 		printf("%c ", 'a'+i);
-	}
 	putchar('\n');
 
 	for (int y = 0; y < 8; y++) {
@@ -27,16 +32,16 @@ void DrawBoard(Cell Board[8][8], Player CurrentPlayer)
 			bool legalToPlace = LegalToPlace(x, y, Board, CurrentPlayer);
 
 			if (background)
-				printf("\x1b[42m");
+				printf(AnsiGreenBg);
 			putchar('|');
 			if (foreground) {
 				if (Board[y][x] == CELL_WHITE)
-					printf("\x1b[37m");
+					printf(AnsiWhiteFg);
 				else if (Board[y][x] == CELL_BLACK)
-					printf("\x1b[30m");
+					printf(AnsiBlackFg);
 				if (showLegalMoves)
 					if (legalToPlace)
-						printf("\x1b[31m");
+						printf(AnsiRedFg);
 			}
 			if (showLegalMoves) {
 				if (legalToPlace)
@@ -46,17 +51,17 @@ void DrawBoard(Cell Board[8][8], Player CurrentPlayer)
 			} else
 				putchar(CellsForDrawing[Board[y][x]]);
 			if (foreground || background)
-				printf("\x1b[0m");
+				printf(AnsiClear);
 		}
 
 		if (background)
-			printf("\x1b[42m");
+			printf(AnsiGreenBg);
 		if (numbersOnTheRight)
 			printf("| %c\n", '1'+y);
 		else
 			putchar('|');
 		if (background)
-			printf("\x1b[0m");
+			printf(AnsiClear);
 			putchar('\n');
 	}
 }
